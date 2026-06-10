@@ -1,0 +1,120 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Página-1" id="NVlc4l6qRnlTf8lZzYCU">
+    <mxGraphModel dx="1586" dy="701" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="BeeufeMIl75K4LU1jcUN-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="1040" width="730" x="60" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="1010" width="370" x="60" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="70" width="730" x="60" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-5" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Usuario" vertex="1">
+          <mxGeometry height="40" width="90" x="200" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-6" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Sistema" vertex="1">
+          <mxGeometry height="40" width="90" x="580" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-19" edge="1" parent="1" source="BeeufeMIl75K4LU1jcUN-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="BeeufeMIl75K4LU1jcUN-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-9" parent="1" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" value="" vertex="1">
+          <mxGeometry height="50" width="50" x="140" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-20" edge="1" parent="1" source="BeeufeMIl75K4LU1jcUN-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="BeeufeMIl75K4LU1jcUN-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-10" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Ingresa a la Web" vertex="1">
+          <mxGeometry height="60" width="120" x="105" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-21" edge="1" parent="1" source="BeeufeMIl75K4LU1jcUN-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="BeeufeMIl75K4LU1jcUN-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-27" edge="1" parent="1" source="BeeufeMIl75K4LU1jcUN-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="BeeufeMIl75K4LU1jcUN-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-11" parent="1" style="rhombus;whiteSpace=wrap;html=1;" value="¿Tiene cuenta?" vertex="1">
+          <mxGeometry height="80" width="80" x="225" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-26" edge="1" parent="1" source="BeeufeMIl75K4LU1jcUN-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="BeeufeMIl75K4LU1jcUN-25">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="625" y="420" />
+              <mxPoint x="350" y="420" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-12" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Formulario de crear Cuenta" vertex="1">
+          <mxGeometry height="60" width="120" x="565" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-42" edge="1" parent="1" source="BeeufeMIl75K4LU1jcUN-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="BeeufeMIl75K4LU1jcUN-18">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="720" y="500" />
+              <mxPoint x="720" y="840" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-14" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Guardar datos&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="565" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-30" edge="1" parent="1" source="BeeufeMIl75K4LU1jcUN-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="BeeufeMIl75K4LU1jcUN-16">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="200" y="600" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-15" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Ingresar Datos para Inicio de sesión." vertex="1">
+          <mxGeometry height="60" width="120" x="140" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-31" edge="1" parent="1" source="BeeufeMIl75K4LU1jcUN-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="BeeufeMIl75K4LU1jcUN-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-16" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Validacion" vertex="1">
+          <mxGeometry height="60" width="120" x="565" y="570" as="geometry" />
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-33" edge="1" parent="1" source="BeeufeMIl75K4LU1jcUN-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="BeeufeMIl75K4LU1jcUN-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-37" edge="1" parent="1" source="BeeufeMIl75K4LU1jcUN-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="BeeufeMIl75K4LU1jcUN-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-17" parent="1" style="rhombus;whiteSpace=wrap;html=1;" value="¿Valido?" vertex="1">
+          <mxGeometry height="80" width="80" x="585" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-35" edge="1" parent="1" source="BeeufeMIl75K4LU1jcUN-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="BeeufeMIl75K4LU1jcUN-34">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-18" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Ingreso Index" vertex="1">
+          <mxGeometry height="60" width="120" x="565" y="810" as="geometry" />
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-28" edge="1" parent="1" source="BeeufeMIl75K4LU1jcUN-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="BeeufeMIl75K4LU1jcUN-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-25" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Ingresar Datos para Registro" vertex="1">
+          <mxGeometry height="60" width="120" x="290" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-32" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Si" vertex="1">
+          <mxGeometry height="30" width="60" x="620" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-34" parent="1" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" value="" vertex="1">
+          <mxGeometry height="50" width="50" x="600" y="910" as="geometry" />
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-38" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="No" vertex="1">
+          <mxGeometry height="30" width="60" x="230" y="690" as="geometry" />
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-39" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="No" vertex="1">
+          <mxGeometry height="30" width="60" x="360" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="BeeufeMIl75K4LU1jcUN-40" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Si" vertex="1">
+          <mxGeometry height="30" width="60" x="220" y="410" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
