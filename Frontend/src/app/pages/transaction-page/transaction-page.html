@@ -1,0 +1,190 @@
+<section class="transactions-page" aria-labelledby="transactions-title">
+  <header class="transactions-heading">
+    <div>
+      <span>Cuenta principal</span>
+      <h1 id="transactions-title">Movimientos y transferencias</h1>
+    </div>
+    <strong>{{ formatMoney(account()?.saldo_centavos) }}</strong>
+  </header>
+
+  @if (message()) {
+    <p class="alert error" role="alert">{{ message() }}</p>
+  }
+
+  @if (successMessage()) {
+    <p class="alert success" role="status">{{ successMessage() }}</p>
+  }
+
+  @if (showSuccessModal()) {
+    <div class="modal-backdrop" role="presentation" (click)="closeSuccessModal()">
+      <section class="success-modal" role="dialog" aria-modal="true" aria-labelledby="success-title" (click)="$event.stopPropagation()">
+        <span class="success-mark">OK</span>
+        <h2 id="success-title">Transaccion exitosa</h2>
+        <p>La transferencia se registro solo en las cuentas involucradas.</p>
+        @if (completedTransfer()) {
+          <strong>{{ formatMoney(completedTransfer()?.monto_centavos) }}</strong>
+          <dl class="receipt-details">
+            <div>
+              <dt>Codigo de operacion</dt>
+              <dd>{{ completedTransfer()?.referencia_externa }}</dd>
+            </div>
+            <div>
+              <dt>Estado</dt>
+              <dd>{{ completedTransfer()?.estado }}</dd>
+            </div>
+          </dl>
+        }
+        <button class="primary-button" type="button" (click)="closeSuccessModal()">Aceptar</button>
+      </section>
+    </div>
+  }
+
+  @if (showContactsList()) {
+    <div class="modal-backdrop" role="presentation" (click)="closeContactsList()">
+      <section class="contacts-modal" role="dialog" aria-modal="true" aria-labelledby="contacts-title" (click)="$event.stopPropagation()">
+        <div class="contacts-modal-heading">
+          <div>
+            <span>Destinatario</span>
+            <h2 id="contacts-title">Elegir contacto</h2>
+          </div>
+          <button class="modal-close" type="button" (click)="closeContactsList()" aria-label="Cerrar contactos">X</button>
+        </div>
+
+        <label class="contact-search">
+          Buscar contacto
+          <input
+            type="search"
+            placeholder="Nombre, email o telefono"
+            [value]="contactSearch()"
+            (input)="updateContactSearch($any($event.target).value)"
+            autocomplete="off"
+          />
+        </label>
+
+        @if (isLoadingContacts()) {
+          <p class="empty-contacts">Cargando contactos...</p>
+        } @else if (contacts().length === 0) {
+          <p class="empty-contacts">No tienes contactos guardados</p>
+        } @else if (filteredContacts().length === 0) {
+          <p class="empty-contacts">No se encontraron contactos</p>
+        } @else {
+          <div class="contacts-list" role="list">
+            @for (contact of filteredContacts(); track contact.id) {
+              <button type="button" class="contact-card" role="listitem" (click)="selectContact(contact)">
+                <span class="contact-initial">{{ contact.nombres[0] || '' }}{{ contact.apellidos[0] || '' }}</span>
+                <div>
+                  <strong>{{ contact.alias || getContactFullName(contact) }}</strong>
+                  <small>{{ contact.email }}</small>
+                  @if (contact.telefono) {
+                    <small>{{ contact.telefono }}</small>
+                  }
+                </div>
+              </button>
+            }
+          </div>
+        }
+      </section>
+    </div>
+  }
+
+  <div class="content-grid">
+    <section class="panel transfer-panel" aria-labelledby="transfer-title">
+      <div class="panel-heading">
+        <div>
+          <span>Nueva operacion</span>
+          <h2 id="transfer-title">Transferir por codigo</h2>
+        </div>
+        <b>{{ account()?.numero_cuenta_enmascarado || 'Sin cuenta' }}</b>
+      </div>
+
+      <form [formGroup]="transferForm" (ngSubmit)="confirmTransfer()" class="transfer-form">
+        <label>
+          Contacto o codigo destino
+          <div class="input-with-button">
+            <input
+              type="text"
+              formControlName="codigoCuentaDestino"
+              placeholder="****abc123 o email"
+              autocomplete="off"
+            />
+            <button
+              type="button"
+              class="contacts-toggle"
+              [class.active]="showContactsList()"
+              (click)="toggleContactsList()"
+              title="Seleccionar de contactos"
+              aria-label="Seleccionar de contactos"
+              [attr.aria-expanded]="showContactsList()"
+            >
+              Contactos
+            </button>
+          </div>
+        </label>
+
+        @if (selectedContact()) {
+          <div class="selected-contact" aria-label="Contacto seleccionado">
+            <span class="contact-initial">{{ selectedContact()?.nombres?.[0] || '' }}{{ selectedContact()?.apellidos?.[0] || '' }}</span>
+            <div>
+              <strong>{{ selectedContact()?.alias || getContactFullName(selectedContact()!) }}</strong>
+              <small>{{ selectedContact()?.email }}</small>
+            </div>
+            <button type="button" class="clear-contact" (click)="clearSelectedContact()" aria-label="Quitar contacto">X</button>
+          </div>
+        }
+
+        <label>
+          Monto
+          <input type="number" formControlName="monto" placeholder="0.00" min="0.01" step="0.01" />
+        </label>
+
+        <label>
+          Descripcion
+          <textarea formControlName="descripcion" rows="3" placeholder="Motivo de la transferencia"></textarea>
+        </label>
+
+        <button class="primary-button" type="submit" [disabled]="isConfirming()">
+          {{ isConfirming() ? 'Confirmando...' : 'Transferir' }}
+        </button>
+      </form>
+    </section>
+
+    <section class="panel movements-panel" aria-labelledby="movements-title">
+      <div class="panel-heading">
+        <div>
+          <span>Historial</span>
+          <h2 id="movements-title">Movimientos propios</h2>
+        </div>
+        <b>{{ movements().length }} registros</b>
+      </div>
+
+      @if (isLoadingMovements()) {
+        <p class="empty-state">Cargando movimientos...</p>
+      } @else if (movements().length === 0) {
+        <p class="empty-state">Aun no tienes movimientos registrados.</p>
+      } @else {
+        <ul class="movement-list">
+          @for (movement of movements(); track movement.id) {
+            <li>
+              <span class="movement-icon" [class.income]="movement.direccion === 'entrada'" [class.outcome]="movement.direccion !== 'entrada'">
+                {{ movement.direccion === 'entrada' ? '+' : '-' }}
+              </span>
+              <div>
+                <strong>{{ movementTitle(movement) }}</strong>
+                <small>
+                  {{ movement.direccion === 'entrada' ? movement.cuenta_origen_codigo : movement.cuenta_destino_codigo }}
+                  - {{ formatDate(movement.created_at) }}
+                </small>
+                @if (movement.descripcion) {
+                  <em>{{ movement.descripcion }}</em>
+                }
+              </div>
+              <b [class.positive]="movement.direccion === 'entrada'" [class.negative]="movement.direccion !== 'entrada'">
+                {{ movement.direccion === 'entrada' ? '+' : '-' }} {{ formatMoney(movement.monto_centavos) }}
+              </b>
+            </li>
+          }
+        </ul>
+      }
+    </section>
+  </div>
+</section>

@@ -1,0 +1,86 @@
+<section class="contacts-page" aria-labelledby="contacts-title">
+  <header class="contacts-hero">
+    <div>
+      <span>Gestion</span>
+      <h1 id="contacts-title">Contactos frecuentes</h1>
+      <p>Agrega usuarios registrados para tenerlos listos al transferir.</p>
+    </div>
+    <strong>{{ items().length }} contactos</strong>
+  </header>
+
+  @if (message()) {
+    <p class="alert error" role="alert">{{ message() }}</p>
+  }
+
+  @if (successMessage()) {
+    <p class="alert success" role="status">{{ successMessage() }}</p>
+  }
+
+  <div class="contacts-grid">
+    <section class="panel" aria-labelledby="add-contact-title">
+      <div class="panel-heading">
+        <span>Nuevo contacto</span>
+        <h2 id="add-contact-title">Buscar por correo</h2>
+      </div>
+
+      <form [formGroup]="form" class="contact-form" (ngSubmit)="addContact()">
+        <label>
+          Email del usuario
+          <input type="email" formControlName="email" placeholder="persona@correo.com" />
+        </label>
+        <label>
+          Alias
+          <input type="text" formControlName="alias" placeholder="Casa, socio, familiar" />
+        </label>
+        <label class="check-row">
+          <input type="checkbox" formControlName="esFavorito" />
+          Marcar favorito
+        </label>
+        <button class="primary-button" type="submit" [disabled]="isSaving()">
+          {{ isSaving() ? 'Guardando...' : 'Agregar contacto' }}
+        </button>
+      </form>
+    </section>
+
+    <section class="panel" aria-labelledby="contact-list-title">
+      <div class="panel-heading">
+        <span>Directorio</span>
+        <h2 id="contact-list-title">Guardados</h2>
+      </div>
+
+      @if (isLoading()) {
+        <p class="empty-state">Cargando contactos...</p>
+      } @else if (items().length === 0) {
+        <p class="empty-state">Todavia no tienes contactos guardados.</p>
+      } @else {
+        <ul class="contact-list">
+          @for (contact of items(); track contact.id) {
+            <li>
+              @if (showDeleteConfirm() === contact.id) {
+                <div class="delete-confirmation">
+                  <p>¿Eliminar contacto <strong>{{ contact.alias || fullName(contact) }}</strong>?</p>
+                  <div class="confirmation-buttons">
+                    <button type="button" class="cancel-btn" (click)="cancelDelete()">Cancelar</button>
+                    <button type="button" class="delete-btn" (click)="confirmDelete(contact)" [disabled]="isDeletingId() === contact.id">
+                      {{ isDeletingId() === contact.id ? 'Eliminando...' : 'Eliminar' }}
+                    </button>
+                  </div>
+                </div>
+              } @else {
+                <span class="contact-avatar">{{ contact.nombres[0] }}{{ contact.apellidos[0] }}</span>
+                <div>
+                  <strong>{{ contact.alias || fullName(contact) }}</strong>
+                  @if (contact.es_favorito) {
+                    <span class="favorite-badge">⭐ Favorito</span>
+                  }
+                  <small>{{ fullName(contact) }} · {{ contact.email }}</small>
+                </div>
+                <button type="button" (click)="deleteContact(contact)" class="delete-action-btn">🗑️</button>
+              }
+            </li>
+          }
+        </ul>
+      }
+    </section>
+  </div>
+</section>

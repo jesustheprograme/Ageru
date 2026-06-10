@@ -1,0 +1,126 @@
+<section class="profile-page" aria-labelledby="profile-title">
+  <header class="profile-hero">
+    <div class="avatar-wrap">
+      <span class="profile-avatar">
+        @if (session.avatar()) {
+          <img [src]="session.avatar()" alt="Foto de perfil" />
+        } @else {
+          {{ initials }}
+        }
+      </span>
+      <label class="photo-button">
+        Cambiar foto
+        <input type="file" accept="image/*" (change)="updateAvatar($event)" />
+      </label>
+    </div>
+
+    <div class="hero-copy">
+      <span>Modulo</span>
+      <h1 id="profile-title">{{ fullName }}</h1>
+      <p>{{ session.user()?.email || 'No hay correo registrado en la sesion local.' }}</p>
+    </div>
+  </header>
+
+  <div class="profile-grid">
+    <section class="profile-panel sms-panel" aria-labelledby="sms-title">
+      <div class="panel-heading">
+        <span>Vinculacion</span>
+        <h2 id="sms-title">Vincular datos por SMS</h2>
+      </div>
+
+      @if (message()) {
+        <p class="profile-alert error" role="alert">{{ message() }}</p>
+      }
+
+      @if (successMessage()) {
+        <p class="profile-alert success" role="status">{{ successMessage() }}</p>
+      }
+
+      <form [formGroup]="smsForm" class="sms-form">
+        <label>
+          Telefono registrado
+          <input type="tel" formControlName="phone" placeholder="+51999999999" autocomplete="tel" />
+        </label>
+
+        @if (smsStep() === 'code') {
+          <label>
+            Codigo SMS
+            <input type="text" formControlName="code" placeholder="123456" inputmode="numeric" autocomplete="one-time-code" />
+          </label>
+        }
+
+        <div class="sms-actions">
+          <button class="secondary-button" type="button" (click)="sendSmsCode()" [disabled]="isSendingCode()">
+            {{ isSendingCode() ? 'Enviando...' : 'Enviar SMS' }}
+          </button>
+
+          @if (smsStep() === 'code') {
+            <button class="primary-button" type="button" (click)="verifySmsCode()" [disabled]="isVerifyingCode()">
+              {{ isVerifyingCode() ? 'Vinculando...' : 'Vincular datos' }}
+            </button>
+          }
+        </div>
+      </form>
+    </section>
+
+    <section class="profile-panel" aria-labelledby="personal-title">
+      <div class="panel-heading">
+        <span>Datos propios</span>
+        <h2 id="personal-title">Informacion personal</h2>
+      </div>
+
+      <dl class="data-list">
+        <div>
+          <dt>DNI</dt>
+          <dd>{{ session.user()?.dni || 'No registrado' }}</dd>
+        </div>
+        <div>
+          <dt>Nombres</dt>
+          <dd>{{ session.user()?.nombres || 'No registrado' }}</dd>
+        </div>
+        <div>
+          <dt>Apellidos</dt>
+          <dd>{{ session.user()?.apellidos || 'No registrado' }}</dd>
+        </div>
+        <div>
+          <dt>Telefono</dt>
+          <dd>{{ session.user()?.telefono || 'No registrado' }}</dd>
+        </div>
+        <div>
+          <dt>Fecha de nacimiento</dt>
+          <dd>{{ formatDate(session.user()?.fecha_nacimiento) }}</dd>
+        </div>
+        <div>
+          <dt>Estado</dt>
+          <dd>{{ session.user()?.estado || 'No disponible' }}</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="profile-panel" aria-labelledby="account-title">
+      <div class="panel-heading">
+        <span>Cuenta principal</span>
+        <h2 id="account-title">Informacion bancaria</h2>
+      </div>
+
+      <dl class="data-list">
+        <div>
+          <dt>Numero de cuenta</dt>
+          <dd>{{ session.account()?.numero_cuenta_enmascarado || 'Sin cuenta' }}</dd>
+        </div>
+        <div>
+          <dt>Saldo disponible</dt>
+          <dd>{{ formatMoney(session.account()?.saldo_centavos) }}</dd>
+        </div>
+        <div>
+          <dt>Limite diario</dt>
+          <dd>{{ formatMoney(session.account()?.limite_diario_centavos) }}</dd>
+        </div>
+        <div>
+          <dt>Estado de cuenta</dt>
+          <dd>{{ session.account()?.estado || 'No disponible' }}</dd>
+        </div>
+      </dl>
+    </section>
+  </div>
+</section>

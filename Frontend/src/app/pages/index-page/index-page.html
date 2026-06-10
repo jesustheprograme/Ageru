@@ -1,0 +1,124 @@
+<section class="account-shell">
+  <app-sidebar />
+
+  <main class="account-main">
+    <header class="topbar" aria-label="Dashboard toolbar">
+      <a class="top-brand" routerLink="/index" aria-label="Ir al dashboard">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 5h16v4H4z"></path>
+          <path d="M8 9v10"></path>
+          <path d="M16 9v10"></path>
+          <path d="M6 19h12"></path>
+        </svg>
+        <span>AGERU UI DASHBOARD</span>
+      </a>
+
+      <div class="top-route">
+        <span>Pages / Dashboard</span>
+        <strong>Dashboard</strong>
+      </div>
+
+      <div class="top-actions">
+        <label class="top-search">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="m16 16 4 4"></path>
+          </svg>
+          <input type="search" placeholder="Type here..." aria-label="Buscar en dashboard" />
+        </label>
+
+        <button class="user-action" type="button" aria-label="Perfil de usuario">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 21a8 8 0 0 1 16 0"></path>
+          </svg>
+          <span>{{ firstName }}</span>
+        </button>
+
+        <button
+          class="icon-action"
+          type="button"
+          (click)="toggleTheme()"
+          [attr.aria-pressed]="isDarkTheme()"
+          [attr.aria-label]="isDarkTheme() ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'"
+        >
+          @if (isDarkTheme()) {
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v2"></path>
+              <path d="M12 20v2"></path>
+              <path d="M2 12h2"></path>
+              <path d="M20 12h2"></path>
+            </svg>
+          } @else {
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M21 13.1A8 8 0 1 1 10.9 3 6.4 6.4 0 0 0 21 13.1Z"></path>
+            </svg>
+          }
+        </button>
+
+        <div class="notifications-menu">
+          <button
+            class="icon-action notification-button"
+            type="button"
+            aria-label="Notificaciones"
+            [attr.aria-expanded]="isNotificationsOpen()"
+            (click)="toggleNotifications()"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 9a6 6 0 0 1 12 0c0 7 3 7 3 9H3c0-2 3-2 3-9"></path>
+              <path d="M10 21h4"></path>
+            </svg>
+            @if (notificationCount() > 0) {
+              <span class="notification-badge">{{ notificationCount() > 9 ? '9+' : notificationCount() }}</span>
+            }
+          </button>
+
+          @if (isNotificationsOpen()) {
+            <section class="notifications-panel" aria-label="Notificaciones recientes">
+              <div class="notifications-heading">
+                <div>
+                  <span>Actividad</span>
+                  <strong>Notificaciones</strong>
+                </div>
+                <button type="button" (click)="closeNotifications()" aria-label="Cerrar notificaciones">X</button>
+              </div>
+
+              @if (isLoadingNotifications()) {
+                <p class="notifications-empty">Cargando notificaciones...</p>
+              } @else if (notificationMessage()) {
+                <p class="notifications-empty">{{ notificationMessage() }}</p>
+              } @else if (recentNotifications().length === 0) {
+                <p class="notifications-empty">No hay notificaciones recientes.</p>
+              } @else {
+                <div class="notifications-list">
+                  @for (movement of recentNotifications(); track movement.id) {
+                    <article class="notification-item" [class.income]="movement.direccion === 'entrada'">
+                      <span>{{ movement.direccion === 'entrada' ? '+' : '-' }}</span>
+                      <div>
+                        <strong>{{ notificationTitle(movement) }}</strong>
+                        <small>{{ notificationDetail(movement) }}</small>
+                        <em>{{ formatDate(movement.created_at) }}</em>
+                      </div>
+                      <b>{{ movement.direccion === 'entrada' ? '+' : '-' }} {{ formatMoney(movement.monto_centavos) }}</b>
+                    </article>
+                  }
+                </div>
+
+                <a class="notifications-link" routerLink="/index/notificaciones" (click)="closeNotifications()">Ver todas</a>
+              }
+            </section>
+          }
+        </div>
+      </div>
+    </header>
+
+    <router-outlet />
+  </main>
+
+  @if (toastMessage()) {
+    <aside class="success-toast" role="status" aria-live="polite">
+      {{ toastMessage() }}
+    </aside>
+  }
+</section>

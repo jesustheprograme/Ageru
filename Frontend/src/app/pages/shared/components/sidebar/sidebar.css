@@ -1,0 +1,237 @@
+:host {
+  display: block;
+}
+
+.sidebar {
+  --side-bg: #ffffff;
+  --side-text: #243044;
+  --side-muted: #91a0b4;
+  --side-hover: rgba(79, 209, 197, 0.14);
+  --side-accent: #4fd1c5;
+  --side-shadow: 0 16px 36px rgba(15, 23, 42, 0.06);
+  width: 200px;
+  min-height: 100vh;
+  max-height: 100vh;
+  padding: 22px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow: hidden;
+  border-radius: 0 24px 24px 0;
+  color: var(--side-text);
+  background: var(--side-bg);
+  box-shadow: var(--side-shadow);
+  backdrop-filter: blur(22px);
+}
+
+:host-context(.ageru-dashboard-dark) .sidebar {
+  --side-bg: #0c1117;
+  --side-text: rgba(247, 248, 252, 0.9);
+  --side-muted: rgba(164, 178, 196, 0.72);
+  --side-hover: rgba(79, 216, 204, 0.12);
+  --side-accent: #4fd8cc;
+  --side-shadow: 22px 28px 52px rgba(0, 0, 0, 0.42);
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.window-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.control {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  color: var(--color-ink);
+  font-size: 12px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--color-mint), var(--color-muted));
+  box-shadow: inset 0 0 0 3px rgba(247, 248, 252, 0.22);
+  overflow: hidden;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-copy {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.role {
+  color: var(--side-muted);
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.profile-copy strong {
+  color: var(--side-text);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.profile-copy small {
+  max-width: 126px;
+  overflow: hidden;
+  color: var(--side-muted);
+  font-size: 10px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar-nav {
+  display: grid;
+  gap: 9px;
+}
+
+.menu-group {
+  border-radius: 14px;
+}
+
+.menu-group summary {
+  min-height: 38px;
+  padding: 0 12px 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 12px;
+  color: var(--side-muted);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  list-style: none;
+}
+
+.menu-group summary::-webkit-details-marker {
+  display: none;
+}
+
+.menu-group summary:hover {
+  color: var(--side-text);
+  background: var(--side-hover);
+}
+
+.menu-group summary i {
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 160ms ease;
+}
+
+.menu-group[open] summary i {
+  transform: rotate(225deg);
+}
+
+.menu-items {
+  display: grid;
+  gap: 4px;
+  padding: 4px 0 8px;
+}
+
+.menu-items a {
+  min-height: 40px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-radius: 10px;
+  color: var(--side-muted);
+  font-size: 12px;
+  transition: background 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.menu-items a:hover,
+.menu-items a.active {
+  color: var(--side-text);
+  background: var(--side-hover);
+}
+
+.menu-items a:hover {
+  transform: translateX(2px);
+}
+
+.logout-link {
+  margin-top: 6px;
+  color: var(--side-accent) !important;
+}
+
+.nav-icon {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    width: 76px;
+    min-height: 100svh;
+    padding: 18px 12px;
+    align-items: center;
+  }
+
+  .profile-copy,
+  .menu-group summary span,
+  .menu-items a span {
+    display: none;
+  }
+
+  .sidebar-nav,
+  .menu-group {
+    width: 100%;
+  }
+
+  .menu-group summary {
+    justify-content: center;
+    padding: 0;
+  }
+
+  .menu-group summary i {
+    width: 6px;
+    height: 6px;
+  }
+
+  .menu-items a {
+    justify-content: center;
+    padding: 0;
+  }
+}

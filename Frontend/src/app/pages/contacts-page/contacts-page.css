@@ -1,0 +1,102 @@
+:host { display: block; }
+h1, h2, p { margin: 0; }
+.contacts-page { --s:#fff; --txt:#1f2937; --muted:#8190a5; --bd:rgba(226,232,240,.9); --sh:0 16px 36px rgba(15,23,42,.06); --acc:#4fd1c5; display:grid; gap:14px; color:var(--txt); }
+:host-context(.ageru-dashboard-dark) .contacts-page { --s:#151c27; --txt:#f5f7fb; --muted:#9aa8ba; --bd:rgba(112,128,150,.18); --sh:0 18px 44px rgba(0,0,0,.26); --acc:#4fd8cc; }
+.contacts-hero, .panel { border:1px solid var(--bd); border-radius:8px; background:var(--s); box-shadow:var(--sh); }
+.contacts-hero { padding:22px; display:flex; align-items:center; justify-content:space-between; gap:18px; }
+.contacts-hero span, .panel-heading span, label { color:var(--muted); font-size:11px; font-weight:800; text-transform:uppercase; }
+h1 { margin-top:6px; font-size:30px; font-weight:800; }
+.contacts-hero p { margin-top:8px; color:var(--muted); font-size:13px; font-weight:700; }
+.contacts-hero strong { color:var(--acc); font-size:14px; font-weight:800; white-space:nowrap; }
+.contacts-grid { display:grid; grid-template-columns:minmax(280px,.75fr) minmax(0,1.25fr); gap:14px; }
+.panel { padding:18px; }
+.panel-heading { margin-bottom:14px; display:grid; gap:5px; }
+h2 { font-size:18px; font-weight:800; }
+.contact-form { display:grid; gap:12px; }
+label { display:grid; gap:7px; }
+input { width:100%; height:40px; box-sizing:border-box; border:1px solid var(--bd); border-radius:8px; padding:0 12px; color:var(--txt); background:transparent; font:700 13px/1 "Montserrat","Segoe UI",Arial,sans-serif; outline:0; }
+input:focus { border-color:var(--acc); }
+.check-row { grid-template-columns:auto 1fr; align-items:center; text-transform:none; }
+.check-row input { width:16px; height:16px; padding:0; }
+.primary-button { min-height:40px; border-radius:8px; border:0; color:#0f172a; background:var(--acc); font:800 12px/1 "Montserrat","Segoe UI",Arial,sans-serif; cursor:pointer; }
+.primary-button:disabled { cursor:wait; opacity:.68; }
+.contact-list { margin:0; padding:0; display:grid; gap:10px; list-style:none; }
+.contact-list li { min-height:58px; display:grid; grid-template-columns:38px minmax(0,1fr) auto; align-items:center; gap:12px; border-bottom:1px solid var(--bd); padding-bottom:10px; }
+.contact-avatar { width:36px; height:36px; display:grid; place-items:center; border-radius:50%; color:#0f172a; background:linear-gradient(135deg,var(--acc),rgba(79,209,197,.6)); font-weight:800; font-size:12px; flex-shrink:0; }
+.contact-list div { display:grid; gap:4px; min-width:0; }
+.contact-list strong { color:var(--txt); font-size:13px; font-weight:800; }
+.contact-list small, .empty-state { color:var(--muted); font-size:12px; font-weight:700; }
+.delete-action-btn { border:none; background:transparent; cursor:pointer; font-size:16px; padding:4px 8px; transition:transform .2s; }
+.delete-action-btn:hover { transform:scale(1.2); }
+.alert { padding:11px 14px; border-radius:8px; font-size:12px; font-weight:800; }
+.error { color:#9f1239; background:rgba(254,205,211,.7); }
+.success { color:#116149; background:rgba(187,222,198,.74); }
+
+.delete-confirmation {
+  grid-column: 1 / -1;
+  padding: 12px;
+  background: rgba(239, 69, 101, 0.08);
+  border: 1px solid rgba(239, 69, 101, 0.3);
+  border-radius: 6px;
+  display: grid;
+  gap: 10px;
+}
+
+.delete-confirmation p {
+  color: var(--txt);
+  font-size: 12px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.confirmation-buttons {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px;
+}
+
+.cancel-btn,
+.delete-btn {
+  padding: 8px 12px;
+  border-radius: 6px;
+  font: 700 11px/1 "Montserrat", "Segoe UI", Arial, sans-serif;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+
+.cancel-btn {
+  background: var(--bd);
+  color: var(--txt);
+}
+
+.cancel-btn:hover {
+  background: rgba(129, 144, 165, 0.2);
+}
+
+.delete-btn {
+  background: rgba(239, 69, 101, 0.9);
+  color: #ffffff;
+}
+
+.delete-btn:hover {
+  background: rgba(239, 69, 101, 1);
+}
+
+.delete-btn:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.favorite-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  background: rgba(255, 193, 7, 0.2);
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 800;
+  color: #ffc107;
+  margin-top: 2px;
+}
+
+@media (max-width:900px){ .contacts-grid { grid-template-columns:1fr; } .contacts-hero { align-items:flex-start; flex-direction:column; } }

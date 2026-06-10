@@ -1,0 +1,35 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700,200");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-ink: #010300;
+  --color-deep: #314c53;
+  --color-muted: #5a7f78;
+  --color-mint: #bbdec6;
+  --color-paper: #f7f8fc;
+  --color-border: rgba(187, 222, 198, 0.22);
+  --surface-strong: rgba(1, 3, 0, 0.9);
+  --surface-panel: rgba(49, 76, 83, 0.76);
+  --shadow-deep: rgba(1, 3, 0, 0.48);
+}
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+  background: var(--color-ink);
+}
+
+body.ageru-dashboard-page {
+  height: 100vh;
+  overflow: hidden;
+}
+
+body.ageru-dashboard-page app-root {
+  display: block;
+  height: 100vh;
+  overflow: hidden;
+}

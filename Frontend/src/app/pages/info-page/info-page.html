@@ -1,0 +1,32 @@
+<section class="info-page" aria-labelledby="info-title">
+  <header class="info-hero">
+    <div>
+      <span>Sistema</span>
+      <h1 id="info-title">Notificaciones</h1>
+      <p>Alertas generadas desde tus movimientos y operaciones recientes.</p>
+    </div>
+    <strong>{{ movements().length }} alertas</strong>
+  </header>
+
+  @if (message()) {
+    <p class="alert">{{ message() }}</p>
+  }
+
+  <section class="panel">
+    @if (movements().length === 0) {
+      <p class="empty">No hay notificaciones recientes.</p>
+    } @else {
+      <ul>
+        @for (movement of movements(); track movement.id) {
+          <li>
+            <span>{{ movement.direccion === 'entrada' ? '+' : '-' }}</span>
+            <div>
+              <strong>{{ title(movement) }}</strong>
+              <small>{{ movement.descripcion || movement.referencia_externa || 'Operacion registrada' }}</small>
+            </div>
+          </li>
+        }
+      </ul>
+    }
+  </section>
+</section>

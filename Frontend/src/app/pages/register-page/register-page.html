@@ -1,0 +1,102 @@
+<section class="login-shell register-shell">
+  <header class="topbar" aria-label="Primary navigation">
+    <div class="nav-brand">
+      <button class="menu-button" type="button" aria-label="Open menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <a routerLink="/" class="brand-link">AGERU</a>
+    </div>
+
+    <nav class="nav-links" aria-label="Secondary navigation">
+      <a routerLink="/">INICIAR SESION</a>
+    </nav>
+  </header>
+
+  <main class="login-content">
+    <form class="login-card register-card" [formGroup]="form" (ngSubmit)="save()" aria-label="Registro">
+      <div class="logo-mark">
+        <img src="/login-page/now-logo.png" alt="Ageru logo" />
+      </div>
+
+      <div class="register-heading">
+        <span>Cuenta automatica</span>
+        <h1>Informacion personal</h1>
+      </div>
+
+      <label class="input-row">
+        <span class="input-icon">DNI</span>
+        <input
+          formControlName="dni"
+          inputmode="numeric"
+          maxlength="8"
+          pattern="[0-9]*"
+          placeholder="DNI"
+          autocomplete="off"
+          (input)="limitDniLength($event)"
+        />
+      </label>
+
+      <label class="input-row">
+        <span class="input-icon">@</span>
+        <input formControlName="email" placeholder="Email" autocomplete="email" />
+      </label>
+
+      <label class="input-row">
+        <span class="input-icon">+51</span>
+        <input formControlName="telefono" placeholder="Telefono" autocomplete="tel" />
+      </label>
+
+      <label class="input-row">
+        <span class="input-icon">N</span>
+        <input formControlName="nombres" placeholder="Nombres" autocomplete="given-name" />
+      </label>
+
+      <label class="input-row">
+        <span class="input-icon">A</span>
+        <input formControlName="apellidos" placeholder="Apellidos" autocomplete="family-name" />
+      </label>
+
+      <label class="input-row">
+        <span class="input-icon">FN</span>
+        <input type="date" formControlName="fechaNacimiento" />
+      </label>
+
+      <label class="input-row">
+        <span class="input-icon password-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              fill="currentColor"
+              d="M12 17a2 2 0 0 0 2-2a2 2 0 0 0-2-2a2 2 0 0 0-2 2a2 2 0 0 0 2 2m6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1V6a5 5 0 0 1 5-5a5 5 0 0 1 5 5v2zm-6-5a3 3 0 0 0-3 3v2h6V6a3 3 0 0 0-3-3"
+            />
+          </svg>
+        </span>
+        <input
+          type="password"
+          formControlName="password"
+          placeholder="Contrasena"
+          autocomplete="new-password"
+        />
+      </label>
+
+      <button type="submit" class="start-button" [disabled]="loading()">
+        {{ loading() ? 'Registrando...' : 'Crear cuenta' }}
+      </button>
+
+      @if (message()) {
+        <p class="register-message">{{ message() }}</p>
+      }
+    </form>
+  </main>
+
+  <footer class="login-footer">
+    <nav aria-label="Footer navigation">
+      <a href="#">AGERU</a>
+      <a href="#">SOPORTE</a>
+      <a href="#">SEGURIDAD</a>
+    </nav>
+
+    <p>Registro seguro con <a href="#">Ageru</a></p>
+  </footer>
+</section>

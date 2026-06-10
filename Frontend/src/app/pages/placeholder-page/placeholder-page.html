@@ -1,0 +1,209 @@
+@if (operation) {
+  <section class="operation-page" aria-labelledby="operation-title">
+    <header class="operation-hero">
+      <div>
+        <span>{{ operation.eyebrow }}</span>
+        <h1 id="operation-title">{{ operation.title }}</h1>
+        <p>{{ operation.description }}</p>
+      </div>
+      <button class="primary-action" type="button" (click)="submitOperation()">{{ operation.cta }}</button>
+    </header>
+
+    @if (message()) {
+      <p class="operation-alert error" role="alert">{{ message() }}</p>
+    }
+
+    @if (successMessage()) {
+      <p class="operation-alert success" role="status">{{ successMessage() }}</p>
+    }
+
+    <div class="summary-grid" aria-label="Resumen de operacion">
+      <article class="summary-card balance-card">
+        <span>Saldo actual</span>
+        <strong>{{ currentBalance }}</strong>
+      </article>
+      @for (item of operation.summary; track item.label) {
+        <article class="summary-card">
+          <span>{{ item.label }}</span>
+          <strong>{{ item.value }}</strong>
+        </article>
+      }
+    </div>
+
+    <div class="operation-grid">
+      @if (operation.kind !== 'transferencia') {
+        <section class="operation-panel form-panel" aria-labelledby="form-title">
+          <div class="panel-heading">
+            <span>Ejecutar</span>
+            <h2 id="form-title">Completar operacion</h2>
+          </div>
+
+          <form [formGroup]="form" class="operation-form" (ngSubmit)="submitOperation()">
+            <label>
+              {{ operation.detailLabel }}
+              <input type="text" formControlName="detail" [placeholder]="operation.detailPlaceholder" />
+            </label>
+
+            <label>
+              Monto
+              <input type="number" formControlName="amount" placeholder="0.00" min="0.01" step="0.01" />
+            </label>
+
+            <label>
+              Referencia
+              <input type="text" formControlName="reference" placeholder="Comprobante, documento o nota" />
+            </label>
+
+            <button class="primary-action full" type="submit" [disabled]="isSubmitting()">
+              {{ isSubmitting() ? 'Procesando...' : operation.cta }}
+            </button>
+          </form>
+        </section>
+      }
+
+      <section class="operation-panel" aria-labelledby="fields-title">
+        <div class="panel-heading">
+          <span>Datos requeridos</span>
+          <h2 id="fields-title">Formulario esperado</h2>
+        </div>
+        <ul class="field-list">
+          @for (field of operation.fields; track field) {
+            <li>
+              <span aria-hidden="true"></span>
+              <strong>{{ field }}</strong>
+            </li>
+          }
+        </ul>
+      </section>
+
+      <section class="operation-panel" aria-labelledby="steps-title">
+        <div class="panel-heading">
+          <span>Flujo</span>
+          <h2 id="steps-title">Como funciona</h2>
+        </div>
+        <ol class="step-list">
+          @for (step of operation.steps; track step; let index = $index) {
+            <li>
+              <b>{{ index + 1 }}</b>
+              <span>{{ step }}</span>
+            </li>
+          }
+        </ol>
+      </section>
+
+      <section class="operation-panel notes-panel" aria-labelledby="notes-title">
+        <div class="panel-heading">
+          <span>Seguridad</span>
+          <h2 id="notes-title">Antes de continuar</h2>
+        </div>
+        <ul class="notes-list">
+          @for (note of operation.notes; track note) {
+            <li>{{ note }}</li>
+          }
+        </ul>
+      </section>
+    </div>
+  </section>
+} @else if (isManagementSection) {
+  <section class="operation-page" aria-labelledby="management-title">
+    <header class="operation-hero">
+      <div>
+        <span>Modulo activo</span>
+        <h1 id="management-title">{{ title }}</h1>
+        <p>{{ description }}</p>
+      </div>
+      <button class="primary-action" type="button" (click)="refreshAccount()">Actualizar</button>
+    </header>
+
+    @if (message()) {
+      <p class="operation-alert error" role="alert">{{ message() }}</p>
+    }
+
+    @if (successMessage()) {
+      <p class="operation-alert success" role="status">{{ successMessage() }}</p>
+    }
+
+    @if (title === 'Cuentas') {
+      <div class="summary-grid">
+        <article class="summary-card balance-card"><span>Saldo</span><strong>{{ currentBalance }}</strong></article>
+        <article class="summary-card"><span>Cuenta</span><strong>{{ session.account()?.numero_cuenta_enmascarado || 'Sin cuenta' }}</strong></article>
+        <article class="summary-card"><span>Estado</span><strong>{{ session.account()?.estado || 'No disponible' }}</strong></article>
+        <article class="summary-card"><span>Limite diario</span><strong>{{ formatMoney(session.account()?.limite_diario_centavos) }}</strong></article>
+      </div>
+    }
+
+    @if (title === 'Tarjetas') {
+      <div class="operation-grid">
+        <section class="operation-panel form-panel">
+          <div class="panel-heading"><span>Alta</span><h2>Registrar tarjeta</h2></div>
+          <form [formGroup]="cardForm" class="operation-form" (ngSubmit)="addCard()">
+            <label>Numero<input type="text" formControlName="numTarjeta" placeholder="4111111111111111" /></label>
+            <label>Fecha caducidad<input type="date" formControlName="fechaCaducidad" /></label>
+            <label>CVV<input type="password" formControlName="cvv" placeholder="123" /></label>
+            <button class="primary-action full" type="submit" [disabled]="isSubmitting()">Registrar tarjeta</button>
+          </form>
+        </section>
+        <section class="operation-panel">
+          <div class="panel-heading"><span>Tarjetas</span><h2>Asociadas</h2></div>
+          @if (cards().length === 0) {
+            <p class="empty-copy">No tienes tarjetas registradas.</p>
+          } @else {
+            <ul class="notes-list">
+              @for (card of cards(); track card.id) {
+                <li>{{ card.num_tarjeta }} · vence {{ card.fecha_caducidad | date:'yyyy-MM-dd' }} · {{ card.estado }}</li>
+              }
+            </ul>
+          }
+        </section>
+      </div>
+    }
+
+    @if (title === 'Limites') {
+      <div class="summary-grid">
+        <article class="summary-card"><span>Limite diario</span><strong>{{ formatMoney(session.account()?.limite_diario_centavos) }}</strong></article>
+        <article class="summary-card"><span>Usado hoy</span><strong>{{ formatMoney(spentToday) }}</strong></article>
+        <article class="summary-card balance-card"><span>Disponible</span><strong>{{ formatMoney(availableDailyLimit) }}</strong></article>
+        <article class="summary-card"><span>Movimientos</span><strong>{{ movements().length }}</strong></article>
+      </div>
+    }
+
+    @if (title === 'Seguridad') {
+      <div class="operation-grid">
+        <section class="operation-panel">
+          <div class="panel-heading"><span>Sesion</span><h2>Estado de acceso</h2></div>
+          <ul class="notes-list">
+            <li>Usuario: {{ session.fullName }}</li>
+            <li>Correo: {{ session.user()?.email || 'No vinculado' }}</li>
+            <li>Telefono SMS: {{ session.user()?.telefono || 'No vinculado' }}</li>
+            <li>Estado: {{ session.user()?.estado || 'Sesion local incompleta' }}</li>
+          </ul>
+        </section>
+        <section class="operation-panel">
+          <div class="panel-heading"><span>Proteccion</span><h2>Controles activos</h2></div>
+          <ul class="notes-list">
+            <li>Validacion SMS disponible para perfil y transferencias.</li>
+            <li>Credenciales guardadas con hash en el backend.</li>
+            <li>Las tarjetas no exponen CVV ni numero completo.</li>
+          </ul>
+        </section>
+      </div>
+    }
+
+    @if (title === 'Soporte') {
+      <section class="operation-panel">
+        <div class="panel-heading"><span>Atencion</span><h2>Crear solicitud</h2></div>
+        <form [formGroup]="supportForm" class="operation-form" (ngSubmit)="sendSupport()">
+          <label>Asunto<input type="text" formControlName="subject" placeholder="Problema con una operacion" /></label>
+          <label>Detalle<input type="text" formControlName="detail" placeholder="Describe lo ocurrido" /></label>
+          <button class="primary-action full" type="submit">Enviar solicitud</button>
+        </form>
+      </section>
+    }
+  </section>
+} @else {
+  <section class="placeholder-panel">
+    <p>Modulo</p>
+    <h1>{{ title }}</h1>
+    <span>{{ description }}</span>
+  </section>
+}

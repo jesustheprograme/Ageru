@@ -1,0 +1,212 @@
+<section class="dashboard" aria-labelledby="dashboard-title">
+  <header class="dashboard-heading">
+    <div class="heading-copy">
+      <h1 id="dashboard-title">Bienvenido, {{ fullName }}</h1>
+    </div>
+  </header>
+
+  @if (message()) {
+    <p class="dashboard-alert" role="status">{{ message() }}</p>
+  }
+
+  <div class="stat-grid" aria-label="Dashboard summary">
+    <article class="stat-card">
+      <div class="stat-copy">
+        <span>Saldo disponible</span>
+        <div class="stat-value">
+          <strong>{{ formatMoney(account()?.saldo_centavos) }}</strong>
+          <b class="positive">{{ account()?.estado || 'sin cuenta' }}</b>
+        </div>
+      </div>
+      <span class="stat-icon purple" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M16 11a4 4 0 1 0-8 0"></path>
+          <path d="M5 21a7 7 0 0 1 14 0"></path>
+          <circle cx="17" cy="8" r="3"></circle>
+          <path d="M20 21a5 5 0 0 0-4-4.9"></path>
+        </svg>
+      </span>
+    </article>
+
+    <article class="stat-card">
+      <div class="stat-copy">
+        <span>Movimientos</span>
+        <div class="stat-value">
+          <strong>{{ movements().length }}</strong>
+          <b class="positive">{{ isLoading() ? 'cargando' : 'actualizado' }}</b>
+        </div>
+      </div>
+      <span class="stat-icon yellow" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 3 4 7l8 4 8-4-8-4Z"></path>
+          <path d="M4 7v10l8 4 8-4V7"></path>
+          <path d="M12 11v10"></path>
+        </svg>
+      </span>
+    </article>
+
+    <article class="stat-card">
+      <div class="stat-copy">
+        <span>Recibido</span>
+        <div class="stat-value">
+          <strong>{{ formatMoney(receivedTotal()) }}</strong>
+          <b class="positive">entradas</b>
+        </div>
+      </div>
+      <span class="stat-icon green" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M4 19V5"></path>
+          <path d="M4 19h16"></path>
+          <path d="m7 15 4-4 3 3 5-7"></path>
+        </svg>
+      </span>
+    </article>
+
+    <article class="stat-card">
+      <div class="stat-copy">
+        <span>Enviado</span>
+        <div class="stat-value">
+          <strong>{{ formatMoney(sentTotal()) }}</strong>
+          <b class="negative">salidas</b>
+        </div>
+      </div>
+      <span class="stat-icon orange" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 8v5l4 2"></path>
+          <path d="M4 12a8 8 0 1 0 2.3-5.7"></path>
+          <path d="M4 4v5h5"></path>
+        </svg>
+      </span>
+    </article>
+  </div>
+
+  <div class="insights-grid">
+    <section class="dashboard-panel sales-panel" aria-labelledby="sales-title">
+      <div class="panel-heading">
+        <h2 id="sales-title">Resumen de actividad</h2>
+        <button class="period-button" type="button" aria-label="Periodo ultimos siete dias">
+          Ultimos 7 dias
+          <svg viewBox="0 0 16 16" aria-hidden="true">
+            <path d="m4 6 4 4 4-4"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="chart-summary" aria-label="Resumen numerico de actividad">
+        <span><b>{{ formatMoney(chartNetTotal()) }}</b> neto</span>
+        <span><b>{{ activeDays() }}</b> dias activos</span>
+        <span><b>{{ peakDay() }}</b> dia pico</span>
+      </div>
+
+      <div class="chart-wrap" aria-label="Grafico de actividad">
+        <svg class="sales-chart" viewBox="0 0 820 260" role="img" aria-labelledby="chart-title chart-desc">
+          <title id="chart-title">Tendencia de actividad</title>
+          <desc id="chart-desc">Grafico cascada calculado desde entradas y salidas reales de los ultimos siete dias.</desc>
+
+          <g class="chart-grid">
+            <line x1="78" y1="28" x2="790" y2="28"></line>
+            <line x1="78" y1="116" x2="790" y2="116"></line>
+            <line x1="78" y1="204" x2="790" y2="204"></line>
+          </g>
+
+          <g class="chart-labels y-labels">
+            <text x="10" y="32">{{ chartMaxLabel() }}</text>
+            <text x="10" [attr.y]="chartZeroY() + 4">{{ chartMidLabel() }}</text>
+            <text x="10" y="208">{{ chartMinLabel() }}</text>
+          </g>
+
+          <g class="chart-labels x-labels">
+            @for (point of activityPoints(); track point.key) {
+              <text [attr.x]="point.x - 16" y="232">{{ point.label }}</text>
+            }
+          </g>
+
+          <line class="zero-line" x1="78" [attr.y1]="chartZeroY()" x2="790" [attr.y2]="chartZeroY()"></line>
+
+          @for (point of activityPoints(); track point.key) {
+            <line class="connector-line" [attr.x1]="point.x - 38" [attr.y1]="chartZeroY()" [attr.x2]="point.x + 38" [attr.y2]="chartZeroY()"></line>
+            <rect
+              class="waterfall-bar"
+              [class.increase]="point.net >= 0"
+              [class.decrease]="point.net < 0"
+              [attr.x]="point.x - 20"
+              [attr.y]="point.barY"
+              width="40"
+              [attr.height]="point.barHeight"
+              rx="5"
+            >
+              <title>{{ chartPointLabel(point) }}</title>
+            </rect>
+          }
+
+          <polyline class="chart-line waterfall-trend" [attr.points]="chartLinePoints()"></polyline>
+
+          <g class="chart-dots">
+            @for (point of activityPoints(); track point.key) {
+              <circle [attr.cx]="point.x" [attr.cy]="point.valueY" r="4">
+                <title>{{ chartPointLabel(point) }}</title>
+              </circle>
+            }
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <div class="side-stack">
+      <section class="dashboard-panel activity-panel" aria-labelledby="activity-title">
+        <div class="panel-heading compact">
+          <h2 id="activity-title">Actividades recientes</h2>
+          <span>Hoy</span>
+        </div>
+
+        <ul class="activity-list">
+          @if (recentMovements().length === 0) {
+            <li class="empty-activity">
+              <div>
+                <strong>Sin movimientos recientes</strong>
+                <small>Cuando transfieras o recibas dinero aparecera aqui.</small>
+              </div>
+            </li>
+          } @else {
+            @for (movement of recentMovements(); track movement.id) {
+              <li>
+                <span class="activity-icon" [class.income]="movement.direccion === 'entrada'" [class.outcome]="movement.direccion !== 'entrada'">
+                  {{ movement.direccion === 'entrada' ? '+' : '-' }}
+                </span>
+                <div>
+                  <strong>{{ movementTitle(movement) }}</strong>
+                  <small>{{ formatDate(movement.created_at) }}</small>
+                </div>
+                <b>
+                  {{ movement.direccion === 'entrada' ? '+' : '-' }} {{ formatMoney(movement.monto_centavos) }}
+                </b>
+              </li>
+            }
+          }
+        </ul>
+      </section>
+
+      <section class="dashboard-panel account-panel" aria-labelledby="account-title">
+        <div class="panel-heading compact">
+          <h2 id="account-title">Cuenta</h2>
+          <span>Activa</span>
+        </div>
+
+        <dl class="account-list">
+          <div>
+            <dt>Numero</dt>
+            <dd>{{ account()?.numero_cuenta_enmascarado || 'Sin cuenta' }}</dd>
+          </div>
+          <div>
+            <dt>Estado</dt>
+            <dd>{{ account()?.estado || 'No disponible' }}</dd>
+          </div>
+          <div>
+            <dt>Limite diario</dt>
+            <dd>{{ formatMoney(account()?.limite_diario_centavos) }}</dd>
+          </div>
+        </dl>
+      </section>
+    </div>
+  </div>
+</section>

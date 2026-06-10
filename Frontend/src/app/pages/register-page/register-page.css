@@ -1,0 +1,63 @@
+.register-shell .login-content {
+  padding-top: 16px;
+}
+
+.register-card {
+  width: min(360px, calc(100vw - 40px));
+}
+
+.register-card .logo-mark {
+  width: 54px;
+  height: 54px;
+  margin-bottom: 14px;
+}
+
+.register-heading {
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.register-heading span {
+  color: rgba(187, 222, 198, 0.82);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.register-heading h1 {
+  margin: 5px 0 0;
+  color: var(--color-paper);
+  font-size: 19px;
+  line-height: 1.2;
+}
+
+.register-card .input-row {
+  width: 100%;
+  height: 39px;
+  margin-bottom: 8px;
+  box-sizing: border-box;
+}
+
+.register-card .input-icon {
+  font-size: 12px;
+}
+
+.register-card .start-button {
+  width: 100%;
+  height: 45px;
+  margin-top: 14px;
+}
+
+.register-message {
+  min-height: 16px;
+  margin: 14px 0 0;
+  color: var(--color-mint);
+  font-size: 12px;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .register-shell .login-content {
+    padding-top: 12px;
+  }
+}
